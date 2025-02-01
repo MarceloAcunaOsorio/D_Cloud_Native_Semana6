@@ -12,21 +12,21 @@ public class PacienteDTO {
     private String apellido;
     private int edad;
     private String habitacion;
-    private double frecuenciaCardiaca;
-    private double oxigeno;
-    private double presionSistolica;
-    private double presionDiastolica;
-    private double presionArterial;
-    private double temperatura;
+    private Double frecuenciaCardiaca;
+    private Double oxigeno;
+    private Double presionSistolica;
+    private Double presionDiastolica;
+    private Double presionArterial;
+    private Double temperatura;
     private String condicion;
     private LocalDateTime ultimoControl;
     private String observaciones;
     private List<String> historialMedico;
     private List<String> alergias;
     private List<String> medicamentos;
-    private double imc;
+    private Double imc;
     private LocalDateTime ultimaRevision;
-    private double glucosa;
+    private Double glucosa;
 
     public PacienteDTO(String nombre, String apellido, int edad, String habitacion, double frecuenciaCardiaca, 
             double oxigeno, double presionSistolica, double presionDiastolica, double presionArterial, 

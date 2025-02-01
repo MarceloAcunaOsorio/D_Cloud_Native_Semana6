@@ -13,32 +13,32 @@ public interface PacienteService {
     List<Paciente> getAllPacientes();
     
     //buscar paciente por id
-    Optional<Paciente> getPacienteById(Long idPaciente);
+    Optional<Paciente> getPacienteById(String rut);
     
     //crear paciente
     Paciente createPaciente(Paciente idPaciente) throws IOException;
 
     //actualizar paciente
-    Paciente updatePaciente(Long idPaciente,Paciente paciente);
+    Paciente updatePaciente(String rut,Paciente paciente);
     
     //eliminar paciente
     void deletePaciente(Paciente paciente) throws IOException;
     
     // Generar reporte de salud completo
-    Map<String, Object> generarReporteSaludCompleto(Long idPaciente);
+    Map<String, Object> generarReporteSaludCompleto(String rut);
     
     // Obtener estadísticas de salud
-    Map<String, Object> obtenerEstadisticasSalud(Long idPaciente);
+    Map<String, Object> obtenerEstadisticasSalud(String rut);
     
     // Obtener alertas de salud mejoradas
-    Map<String, Object> obtenerAlertasSaludDetalladas(Long idPaciente);
+    Map<String, Object> obtenerAlertasSaludDetalladas(String rut);
     
     // Seguimiento de condiciones crónicas
-    Map<String, Object> obtenerSeguimientoCondicionCronica(Long idPaciente);
+    Map<String, Object> obtenerSeguimientoCondicionCronica(String rut);
     
     // Obtener historial médico completo
-    List<String> obtenerHistorialMedico(Long idPaciente);
+    List<String> obtenerHistorialMedico(String rut);
     
     // Exportar reporte en diferentes formatos
-    byte[] exportarReporte(Long idPaciente, String formato);
+    byte[] exportarReporte(String rut, String formato);
 }

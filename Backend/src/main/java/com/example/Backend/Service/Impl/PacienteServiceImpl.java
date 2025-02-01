@@ -34,8 +34,8 @@ public class PacienteServiceImpl implements PacienteService{
 
     // Método para obtener un paciente por su id
     @Override
-    public Optional<Paciente> getPacienteById(Long idPaciente) {
-        return pacienteRepository.findById(idPaciente);
+    public Optional<Paciente> getPacienteById(String rut) {
+        return pacienteRepository.findById(rut);
     }
 
 
@@ -48,12 +48,12 @@ public class PacienteServiceImpl implements PacienteService{
 
     // Método para actualizar un paciente
     @Override
-    public Paciente updatePaciente(Long idPaciente,Paciente paciente){
+    public Paciente updatePaciente(String rut,Paciente paciente){
 
-        if(!pacienteRepository.existsById(idPaciente)){
-            throw new NotFoundException("producto no encontrado en ID:"+ paciente.getidpaciente());
+        if(!pacienteRepository.existsById(rut)){
+            throw new NotFoundException("Paciente no encontrado en ID:"+ paciente.getrut());
         }
-        paciente.setidpaciente(idPaciente);
+        paciente.setrut(rut);
         return pacienteRepository.save(paciente);
     }
 
@@ -61,17 +61,17 @@ public class PacienteServiceImpl implements PacienteService{
     @Override
     public void deletePaciente(Paciente paciente) throws IOException {
         
-        if(!pacienteRepository.existsById(paciente.getidpaciente())){
-            throw new NotFoundException("producto no encontrado en ID:"+paciente.getidpaciente());
+        if(!pacienteRepository.existsById(paciente.getrut())){
+            throw new NotFoundException("Paciente no encontrado en ID:"+paciente.getrut());
         }
-        pacienteRepository.deleteById(paciente.getidpaciente());
+        pacienteRepository.deleteById(paciente.getrut());
     }
 
     @Override
-    public Map<String, Object> generarReporteSaludCompleto(Long idPaciente) {
-        Optional<Paciente> pacienteOpt = pacienteRepository.findById(idPaciente);
+    public Map<String, Object> generarReporteSaludCompleto(String rut) {
+        Optional<Paciente> pacienteOpt = pacienteRepository.findById(rut);
         if (pacienteOpt.isEmpty()) {
-            throw new NotFoundException("Paciente no encontrado con ID: " + idPaciente);
+            throw new NotFoundException("Paciente no encontrado con ID: " + rut);
         }
         
         Paciente paciente = pacienteOpt.get();
@@ -139,10 +139,10 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public Map<String, Object> obtenerEstadisticasSalud(Long idPaciente) {
-        Optional<Paciente> pacienteOpt = pacienteRepository.findById(idPaciente);
+    public Map<String, Object> obtenerEstadisticasSalud(String rut) {
+        Optional<Paciente> pacienteOpt = pacienteRepository.findById(rut);
         if (pacienteOpt.isEmpty()) {
-            throw new NotFoundException("Paciente no encontrado con ID: " + idPaciente);
+            throw new NotFoundException("Paciente no encontrado con ID: " + rut);
         }
         
         Paciente paciente = pacienteOpt.get();
@@ -157,10 +157,10 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public Map<String, Object> obtenerAlertasSaludDetalladas(Long idPaciente) {
-        Optional<Paciente> pacienteOpt = pacienteRepository.findById(idPaciente);
+    public Map<String, Object> obtenerAlertasSaludDetalladas(String rut) {
+        Optional<Paciente> pacienteOpt = pacienteRepository.findById(rut);
         if (pacienteOpt.isEmpty()) {
-            throw new NotFoundException("Paciente no encontrado con ID: " + idPaciente);
+            throw new NotFoundException("Paciente no encontrado con ID: " + rut);
         }
         
         Paciente paciente = pacienteOpt.get();
@@ -172,10 +172,10 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public Map<String, Object> obtenerSeguimientoCondicionCronica(Long idPaciente) {
-        Optional<Paciente> pacienteOpt = pacienteRepository.findById(idPaciente);
+    public Map<String, Object> obtenerSeguimientoCondicionCronica(String rut) {
+        Optional<Paciente> pacienteOpt = pacienteRepository.findById(rut);
         if (pacienteOpt.isEmpty()) {
-            throw new NotFoundException("Paciente no encontrado con ID: " + idPaciente);
+            throw new NotFoundException("Paciente no encontrado con ID: " + rut);
         }
         
         Paciente paciente = pacienteOpt.get();
@@ -188,10 +188,10 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public List<String> obtenerHistorialMedico(Long idPaciente) {
-        Optional<Paciente> pacienteOpt = pacienteRepository.findById(idPaciente);
+    public List<String> obtenerHistorialMedico(String rut) {
+        Optional<Paciente> pacienteOpt = pacienteRepository.findById(rut);
         if (pacienteOpt.isEmpty()) {
-            throw new NotFoundException("Paciente no encontrado con ID: " + idPaciente);
+            throw new NotFoundException("Paciente no encontrado con ID: " + rut);
         }
         
         Paciente paciente = pacienteOpt.get();
@@ -199,8 +199,8 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public byte[] exportarReporte(Long idPaciente, String formato) {
-        Map<String, Object> reporte = generarReporteSaludCompleto(idPaciente);
+    public byte[] exportarReporte(String rut, String formato) {
+        Map<String, Object> reporte = generarReporteSaludCompleto(rut);
         
         if (formato.equalsIgnoreCase("pdf")) {
             // Implementar generación de PDF

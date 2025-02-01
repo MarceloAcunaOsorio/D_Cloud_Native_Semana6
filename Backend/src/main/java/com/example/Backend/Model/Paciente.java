@@ -3,11 +3,7 @@ package com.example.Backend.Model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
@@ -15,29 +11,15 @@ import jakarta.persistence.Table;
 @Table(name="Paciente")
 public class Paciente {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="IdPaciente")
-    private Long idPaciente;
+     
 
-    @Column(name ="Nombre")
+    private String rut;
     private String nombre;
-
-    @Column(name="Apellido")
     private String apellido;
-
-    @Column(name = "Edad")
     private int edad;
-
-    @Column(name = "Habitacion")
     private String habitacion;
-
-    @Column(name = "FrecuenciaCardiaca")
     private double frecuenciaCardiaca;
-
-    @Column(name = "Oxigeno")
     private double oxigeno;
-
     private double presionSistolica;
     private double presionDiastolica;
     private double presionArterial;
@@ -72,12 +54,12 @@ public class Paciente {
     }
 
     // Getters y Setters
-    public Long getidpaciente() {
-        return idPaciente;
+    public String getrut() {
+        return rut;
     }
 
-    public void setidpaciente(Long idpaciente) {
-        this.idPaciente = idpaciente;
+    public void setrut(String rut) {
+        this.rut = rut;
     }
 
     public String getNombre() {

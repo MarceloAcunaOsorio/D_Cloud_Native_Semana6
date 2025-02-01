@@ -1,4 +1,4 @@
-package cl.duoc.ejemplo.bff.Model;
+package com.example.Backend.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,8 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Table(name = "paciente")
+@Table(name="Paciente")
 public class Paciente {
     
     @Id
@@ -19,12 +20,24 @@ public class Paciente {
     @Column(name ="IdPaciente")
     private Long idPaciente;
 
+    @Column(name ="Nombre")
     private String nombre;
+
+    @Column(name="Apellido")
     private String apellido;
+
+    @Column(name = "Edad")
     private int edad;
+
+    @Column(name = "Habitacion")
     private String habitacion;
+
+    @Column(name = "FrecuenciaCardiaca")
     private double frecuenciaCardiaca;
+
+    @Column(name = "Oxigeno")
     private double oxigeno;
+
     private double presionSistolica;
     private double presionDiastolica;
     private double presionArterial;

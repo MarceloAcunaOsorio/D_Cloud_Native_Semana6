@@ -1,10 +1,10 @@
-package cl.duoc.ejemplo.bff;
+package com.example.Backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BffApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {

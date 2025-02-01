@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
@@ -13,6 +14,7 @@ public class Paciente {
     
      
 
+    @Id
     private String rut;
     private String nombre;
     private String apellido;

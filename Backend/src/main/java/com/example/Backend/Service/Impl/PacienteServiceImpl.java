@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.example.Backend.DTO.PacienteDTO;
 import com.example.Backend.Exceptions.NotFoundException;
 import com.example.Backend.Model.Paciente;
 import com.example.Backend.Repository.PacienteRepository;
 import com.example.Backend.Service.PacienteService;
 
+@Service
 public class PacienteServiceImpl implements PacienteService{
     
      private final PacienteRepository pacienteRepository;

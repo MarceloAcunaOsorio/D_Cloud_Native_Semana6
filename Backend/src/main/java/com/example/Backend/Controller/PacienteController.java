@@ -107,7 +107,7 @@ public class PacienteController {
         paciente.setCondicion("Hipertensión controlada");
         paciente.setUltimoControl(LocalDateTime.parse("2023-10-15T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         paciente.setObservaciones("Paciente estable, continuar tratamiento");
-        paciente.setHistorialMedico(List.of("Hipertensión desde 2018", "Colesterol alto"));
+        paciente.setHistorialMedico(List.of("Hipertensión desde 2018"));
         paciente.setMedicamentos(List.of("Losartán 50mg", "Atorvastatina 20mg"));
         
         try {

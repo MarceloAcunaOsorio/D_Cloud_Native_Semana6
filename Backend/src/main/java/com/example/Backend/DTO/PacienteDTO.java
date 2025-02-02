@@ -4,35 +4,40 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PacienteDTO {
     
-    private Long idPaciente;
+    private String rut;
     private String nombre;
     private String apellido;
     private int edad;
     private String habitacion;
-    private Double frecuenciaCardiaca;
-    private Double oxigeno;
-    private Double presionSistolica;
-    private Double presionDiastolica;
-    private Double presionArterial;
-    private Double temperatura;
+    private double frecuenciaCardiaca;
+    private double oxigeno;
+    private double presionSistolica;
+    private double presionDiastolica;
+    private double presionArterial;
+    private double temperatura;
     private String condicion;
     private LocalDateTime ultimoControl;
     private String observaciones;
     private List<String> historialMedico;
     private List<String> alergias;
     private List<String> medicamentos;
-    private Double imc;
+    private double imc;
     private LocalDateTime ultimaRevision;
-    private Double glucosa;
+    private double glucosa;
 
-    public PacienteDTO(String nombre, String apellido, int edad, String habitacion, double frecuenciaCardiaca, 
+
+   
+
+   
+
+    public PacienteDTO(String rut,String nombre, String apellido, int edad, String habitacion, double frecuenciaCardiaca, 
             double oxigeno, double presionSistolica, double presionDiastolica, double presionArterial, 
             double temperatura, String condicion, LocalDateTime ultimoControl, String observaciones, 
             List<String> historialMedico, List<String> alergias, List<String> medicamentos, 
             double imc, LocalDateTime ultimaRevision, double glucosa) {
+        this.rut=rut;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -200,12 +205,15 @@ public class PacienteDTO {
     }
 
     // Getters y Setters (mantenidos igual)
-    public Long getIdPaciente() {
-        return idPaciente;
+    public String getrut() {
+        return rut;
     }
 
-    public void setIdPaciente(Long idPaciente) {
-        this.idPaciente = idPaciente;
+    public void setIdPaciente(String rut) {
+        if (!rut.matches("\\d{7,8}-[Kk0-9]")) {
+            throw new IllegalArgumentException("Formato de RUT inválido.");
+        }
+        this.rut = rut;
     }
 
     public String getNombre() {

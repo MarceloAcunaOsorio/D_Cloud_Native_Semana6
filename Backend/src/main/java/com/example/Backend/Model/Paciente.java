@@ -3,44 +3,115 @@ package com.example.Backend.Model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name="Paciente")
+@Table(name = "Paciente")
 public class Paciente {
-    
-     
 
     @Id
+    @Column(name = "rut", nullable = false, unique = true, length = 12)
     private String rut;
+
+    @Column(name = "Nombre")
     private String nombre;
+
+    @Column(name = "Apellido")
     private String apellido;
+
+    @Column(name = "Edad")
     private int edad;
+
+    @Column(name = "Habitacion")
     private String habitacion;
+
+    @Column(name = "FrecuenciaCardiaca")
     private double frecuenciaCardiaca;
+
+    @Column(name = "Oxigeno")
     private double oxigeno;
+
+    @Column(name = "PresionSistolica")
     private double presionSistolica;
+
+    @Column(name = "PresionDiastolica")
     private double presionDiastolica;
+
+    @Column(name = "PresionArterial")
     private double presionArterial;
+
+    @Column(name = "Temperatura")
     private double temperatura;
+
+    @Column(name = "Condicion")
     private String condicion;
+
+    @Column(name = "UltimoControl")
     private LocalDateTime ultimoControl;
+
+    @Column(name = "Observaciones")
     private String observaciones;
+
+    @ElementCollection
+    @CollectionTable(name = "HistorialMedico", joinColumns = @JoinColumn(name = "rut"))
+    @Column(name = "Detalle")
     private List<String> historialMedico;
+    
+    @Column(name = "UltimaActualizacion")
     private LocalDateTime ultimaActualizacion;
+
+    @ElementCollection
+    @CollectionTable(name = "HistorialMedico", joinColumns = @JoinColumn(name = "rut"))
+    @Column(name = "HistorialPresion")
     private List<Double> historialPresion;
+
+    @ElementCollection
+    @CollectionTable(name = "HistorialMedico", joinColumns = @JoinColumn(name = "rut"))
+    @Column(name = "HistorialFrecuencia")
     private List<Double> historialFrecuencia;
+
+    @ElementCollection
+    @CollectionTable(name = "HistorialMedico", joinColumns = @JoinColumn(name = "rut"))
+    @Column(name = "EvolucionCondicion")
     private List<String> evolucionCondicion;
+
+    @ElementCollection
+    @CollectionTable(name = "HistorialMedico", joinColumns = @JoinColumn(name = "rut"))
+    @Column(name = "Medicamento")
     private List<String> medicamentos;
+
+    @ElementCollection
+    @CollectionTable(name = "HistorialMedico", joinColumns = @JoinColumn(name = "rut"))
+    @Column(name = "UltimosControles")
     private List<LocalDateTime> ultimosControles;
 
-    public Paciente() {}
+    public String getRut() {
+        return rut;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
+
+    public List<LocalDateTime> getUltimosControles() {
+        return ultimosControles;
+    }
+
+    public void setUltimosControles(List<LocalDateTime> ultimosControles) {
+        this.ultimosControles = ultimosControles;
+    }
+
+    public Paciente() {
+    }
 
     public Paciente(String nombre, String apellido, int edad, String habitacion, double frecuenciaCardiaca,
-            double oxigeno, double presionSistolica, double presionDiastolica, double presionArterial, 
+            double oxigeno, double presionSistolica, double presionDiastolica, double presionArterial,
             double temperatura, String condicion) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -61,6 +132,9 @@ public class Paciente {
     }
 
     public void setrut(String rut) {
+        if (!rut.matches("\\d{7,8}-[Kk0-9]")) {
+            throw new IllegalArgumentException("Formato de RUT inválido.");
+        }
         this.rut = rut;
     }
 
@@ -72,7 +146,6 @@ public class Paciente {
         this.nombre = nombre;
     }
 
-    
     public String getApellido() {
         return apellido;
     }
@@ -185,22 +258,6 @@ public class Paciente {
         this.ultimaActualizacion = ultimaActualizacion;
     }
 
-    public List<Double> getHistorialPresion() {
-        return historialPresion;
-    }
-
-    public void setHistorialPresion(List<Double> historialPresion) {
-        this.historialPresion = historialPresion;
-    }
-
-    public List<Double> getHistorialFrecuencia() {
-        return historialFrecuencia;
-    }
-
-    public void setHistorialFrecuencia(List<Double> historialFrecuencia) {
-        this.historialFrecuencia = historialFrecuencia;
-    }
-
     public List<String> getEvolucionCondicion() {
         return evolucionCondicion;
     }
@@ -217,11 +274,19 @@ public class Paciente {
         this.medicamentos = medicamentos;
     }
 
-    public List<LocalDateTime> getUltimosControles() {
-        return ultimosControles;
+    public List<Double> getHistorialPresion() {
+        return historialPresion;
     }
 
-    public void setUltimosControles(List<LocalDateTime> ultimosControles) {
-        this.ultimosControles = ultimosControles;
+    public void setHistorialPresion(List<Double> historialPresion) {
+        this.historialPresion = historialPresion;
+    }
+
+    public List<Double> getHistorialFrecuencia() {
+        return historialFrecuencia;
+    }
+
+    public void setHistorialFrecuencia(List<Double> historialFrecuencia) {
+        this.historialFrecuencia = historialFrecuencia;
     }
 }

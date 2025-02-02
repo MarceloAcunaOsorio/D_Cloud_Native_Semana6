@@ -91,13 +91,6 @@ public class Paciente {
     @Column(name = "UltimosControles")
     private List<LocalDateTime> ultimosControles;
 
-    public String getRut() {
-        return rut;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
 
     public List<LocalDateTime> getUltimosControles() {
         return ultimosControles;

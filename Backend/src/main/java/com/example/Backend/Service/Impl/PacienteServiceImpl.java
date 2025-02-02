@@ -79,7 +79,7 @@ public class PacienteServiceImpl implements PacienteService{
         
         Paciente paciente = pacienteOpt.get();
         PacienteDTO pacienteDTO = new PacienteDTO(
-            paciente.getRut(),
+            paciente.getrut(),
             paciente.getNombre(),
             paciente.getApellido(),
             paciente.getEdad(),

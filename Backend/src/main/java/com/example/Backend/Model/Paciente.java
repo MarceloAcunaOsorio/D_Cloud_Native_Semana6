@@ -52,6 +52,9 @@ public class Paciente {
     @Column(name = "Condicion")
     private String condicion;
 
+    @Column(name = "glucosa")
+    private double glucosa;
+
     @Column(name = "UltimoControl")
     private LocalDateTime ultimoControl;
 
@@ -131,6 +134,14 @@ public class Paciente {
         this.rut = rut;
     }
 
+    public double getGlucosa() {
+        return glucosa;
+    }
+
+    public void setGlucosa(double glucosa) {
+        this.glucosa = glucosa;
+    }
+    
     public String getNombre() {
         return nombre;
     }

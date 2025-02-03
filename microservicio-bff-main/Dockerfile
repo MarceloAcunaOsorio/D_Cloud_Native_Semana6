@@ -14,9 +14,7 @@ FROM eclipse-temurin:22-jdk
 
 COPY --from=buildstage /app/target/microservicio-0.0.1-SNAPSHOT.jar /app/microservicio.jar
 
-
-
-EXPOSE 8080
+EXPOSE 8081
 
 ENTRYPOINT [ "java", "-jar","/app/microservicio.jar" ]
 

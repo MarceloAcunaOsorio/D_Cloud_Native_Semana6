@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Backend.Model.Paciente;
+import com.example.Backend.Service.IndicadorService;
 import com.example.Backend.Service.PacienteService;
 
 @RestController
@@ -31,9 +32,13 @@ import com.example.Backend.Service.PacienteService;
 public class PacienteController {
     
      private final PacienteService pacienteService;
+     private final IndicadorService indicadorService;
 
-    public PacienteController(PacienteService pacienteService) {
+
+    //contructor
+    public PacienteController(PacienteService pacienteService, IndicadorService indicadorService) {
         this.pacienteService = pacienteService;
+        this.indicadorService = indicadorService;
     }
 
 
@@ -57,12 +62,23 @@ public class PacienteController {
     public ResponseEntity<Paciente> updatePaciente(@PathVariable String rut, @RequestBody Paciente paciente) {
      
         try {
-            
+            // Actualizar paciente en la base de datos
             Paciente updatePaciente = pacienteService.updatePaciente(rut, paciente);
+            
+            // Evaluar alertas médicas con los valores del paciente
+            List<String> alertas = indicadorService.getAlertasMedicas(
+                paciente.getPresionSistolica(),
+                paciente.getPresionDiastolica(),
+                paciente.getOxigeno(),
+                paciente.getFrecuenciaCardiaca(),
+                paciente.getTemperatura(),
+                paciente.getGlucosa()
+            );
+
+            // Retornar respuesta con el paciente actualizado
             return new ResponseEntity<>(updatePaciente, HttpStatus.OK);
 
         } catch (Exception e) {
-            
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -95,6 +111,7 @@ public class PacienteController {
     @PostMapping("/crear-ejemplo")
     public ResponseEntity<Paciente> crearPacienteEjemplo() {
         Paciente paciente = new Paciente();
+        paciente.setrut("11432567-8");
         paciente.setNombre("Juan");
         paciente.setApellido("Pérez");
         paciente.setEdad(45);

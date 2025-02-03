@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class DefaultBackendService {
 
-  private apiUrl = 'http://52.7.168.238:8081';
+  private apiUrl = 'https://aj1pow5na9.execute-api.us-east-1.amazonaws.com/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

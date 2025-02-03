@@ -24,6 +24,6 @@ public class PublisherController {
     @PostMapping(path = "ejemplo")
     public String publishEjemplo(@RequestBody RabbitMQMessage ejemplo){
        this.template.convertAndSend(RabbitMQConfig.EXCHANGE,RabbitMQConfig.ROUTING_KEY_EJEMPLO,ejemplo);
-       return "Ejemplo message send success";
+       return "ejemplo message send success";
     }
 }

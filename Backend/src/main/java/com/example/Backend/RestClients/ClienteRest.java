@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "ClienteRest", url = "http://localhost:8085/")
+@FeignClient(name = "ClienteRest", url = "http://23.22.68.210:8081/microservicio")
 public interface ClienteRest {
 
     @PostMapping

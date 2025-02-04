@@ -1,57 +1,112 @@
 package com.example.Backend.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.Backend.Model.SignosVitales;
 
 @Service
 public class IndicadorService {
+   private final AlertaServicie alertaServicie;
 
-    private final AlertaServicie alertaService;
+   public IndicadorService(AlertaServicie alertaServicie) {
+       this.alertaServicie = alertaServicie;
+   }
 
-    public IndicadorService(AlertaServicie alertaService) {
-        this.alertaService = alertaService;
-    }
+   public List<String> getAlertasMedicas(Long pacienteId, double presionSistolica, 
+           double presionDiastolica, double oxigeno, double frecuenciaCardiaca, 
+           double temperatura) {
+       
+       List<String> alertas = new ArrayList<>();
 
-    public List<String> getAlertasMedicas(double presionSistolica, double presionDiastolica, double oxigeno, double FrecuenciaCardiaca, double temperatura, double glucosa) {
-        List<String> alertas = new ArrayList<>();
+       // Convert double values to appropriate types
+       Integer frecuenciaCardiacaInt = (int) Math.round(frecuenciaCardiaca);
+       Integer saturacionOxigenoInt = (int) Math.round(oxigeno);
+       String presionArterial = presionSistolica + "/" + presionDiastolica;
 
-        if (presionSistolica < 90 || presionDiastolica < 60) {
-            alertas.add("Hipotensión detectada");
-        } else if (presionSistolica > 140 || presionDiastolica > 90) {
-            alertas.add("Hipertensión detectada");
-        }
+       // Presión arterial
+       if (presionSistolica < 90 || presionDiastolica < 60) {
+           alertas.add("Hipotensión detectada (PA: " + presionArterial + ")");
+       } else if (presionSistolica > 140 || presionDiastolica > 90) {
+           alertas.add("Hipertensión detectada (PA: " + presionArterial + ")");
+       }
 
-        if (oxigeno < 90) {
-            alertas.add("Niveles de oxígeno críticos");
-        } else if (oxigeno < 95) {
-            alertas.add("Niveles de oxígeno bajos");
-        }
+       // Saturación de oxígeno
+       if (saturacionOxigenoInt < 90) {
+           alertas.add("Niveles de oxígeno críticos (" + saturacionOxigenoInt + "%)");
+       } else if (saturacionOxigenoInt < 95) {
+           alertas.add("Niveles de oxígeno bajos (" + saturacionOxigenoInt + "%)");
+       }
 
-        if (FrecuenciaCardiaca < 60) {
-            alertas.add("Bradicardia detectada");
-        } else if (FrecuenciaCardiaca > 100) {
-            alertas.add("Taquicardia detectada");
-        }
+       // Frecuencia cardíaca
+       if (frecuenciaCardiacaInt < 60) {
+           alertas.add("Bradicardia detectada (" + frecuenciaCardiacaInt + " lpm)");
+       } else if (frecuenciaCardiacaInt > 100) {
+           alertas.add("Taquicardia detectada (" + frecuenciaCardiacaInt + " lpm)");
+       }
 
-        if (temperatura < 35) {
-            alertas.add("Hipotermia detectada");
-        } else if (temperatura > 38) {
-            alertas.add("Fiebre detectada");
-        }
+       // Temperatura
+       if (temperatura < 35) {
+           alertas.add("Hipotermia detectada (" + temperatura + "°C)");
+       } else if (temperatura > 38) {
+           alertas.add("Fiebre detectada (" + temperatura + "°C)");
+       }
 
-        if (glucosa < 70) {
-            alertas.add("Hipoglucemia detectada");
-        } else if (glucosa > 180) {
-            alertas.add("Hiperglucemia detectada");
-        }
+       // Crear y configurar objeto SignosVitales
+       SignosVitales signosVitales = new SignosVitales();
+       signosVitales.setPacienteId(pacienteId);
+       signosVitales.setPresionArterial(presionArterial);
+       signosVitales.setSaturacionOxigeno(saturacionOxigenoInt);
+       signosVitales.setFrecuenciaCardiaca(frecuenciaCardiacaInt);
+       signosVitales.setTemperatura(temperatura);
+       signosVitales.setFechaRegistro(LocalDateTime.now());
+       signosVitales.setEsAlerta(!alertas.isEmpty());
 
-        // Enviar alerta si hay valores fuera de lo normal
-        alertaService.enviarAlerta(alertas);
+       // Procesar signos vitales si hay alertas
+       if (!alertas.isEmpty()) {
+           alertaServicie.procesarSignosVitales(signosVitales);
+       }
 
-        return alertas;
-    }
-    
+       return alertas;
+   }
+
+   public String evaluarNivelRiesgo(List<String> alertas) {
+       if (alertas.isEmpty()) {
+           return "NORMAL";
+       }
+
+       int alertasCriticas = (int) alertas.stream()
+           .filter(alerta -> 
+               alerta.contains("críticos") || 
+               alerta.contains("Hipotensión") ||
+               alerta.contains("Hipertensión") ||
+               alerta.contains("Bradicardia") ||
+               alerta.contains("Taquicardia") ||
+               alerta.contains("Hipotermia"))
+           .count();
+
+       if (alertasCriticas > 0) {
+           return "ALTO";
+       } else if (alertas.size() > 2) {
+           return "MEDIO";
+       } else {
+           return "BAJO";
+       }
+   }
+
+   public String generarResumenAlertas(List<String> alertas) {
+       if (alertas.isEmpty()) {
+           return "No se detectaron anomalías en los signos vitales.";
+       }
+
+       StringBuilder resumen = new StringBuilder();
+       resumen.append("Se detectaron las siguientes anomalías:\n");
+       alertas.forEach(alerta -> resumen.append("- ").append(alerta).append("\n"));
+       resumen.append("\nNivel de riesgo: ").append(evaluarNivelRiesgo(alertas));
+
+       return resumen.toString();
+   }
 }

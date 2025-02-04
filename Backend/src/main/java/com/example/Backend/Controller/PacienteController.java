@@ -56,35 +56,29 @@ public class PacienteController {
         
     }
 
-
-    //actualizar paciente
     @PutMapping("/{rut}")
     public ResponseEntity<Paciente> updatePaciente(@PathVariable String rut, @RequestBody Paciente paciente) {
-     
         try {
             // Actualizar paciente en la base de datos
             Paciente updatePaciente = pacienteService.updatePaciente(rut, paciente);
             
             // Evaluar alertas médicas con los valores del paciente
             List<String> alertas = indicadorService.getAlertasMedicas(
+                Long.parseLong(rut.replaceAll("[^0-9]", "")),  // Convert RUT directly to Long
                 paciente.getPresionSistolica(),
                 paciente.getPresionDiastolica(),
                 paciente.getOxigeno(),
                 paciente.getFrecuenciaCardiaca(),
-                paciente.getTemperatura(),
-                paciente.getGlucosa()
+                paciente.getTemperatura()
             );
-
+    
             // Retornar respuesta con el paciente actualizado
             return new ResponseEntity<>(updatePaciente, HttpStatus.OK);
-
+    
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
-
     //eliminar paciente
     @DeleteMapping("/{rut}")
     public ResponseEntity<Void> deletePaciente(@PathVariable String rut)throws IOException {
